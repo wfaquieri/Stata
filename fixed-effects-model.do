@@ -4,7 +4,7 @@ destring *,replace force
 
 *Calculando a distância entre municípios: matriz simétrica diagonal zero
 
-use "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\Geodist_munic_Br.dta"
+use "\\path\Geodist_munic_Br.dta"
 
 local tam =5507
 set matsize 10000
@@ -26,21 +26,18 @@ quietly matrix dist[`i',`j']=dist`i'_`j'
 }
 }
 
-*Essa matriz também foi calculada no Excel. Pelo Stata estava demorando muito. 
-*Cálculo da distância entre municípios feito no excel e importado para o Stata.
-
 set mem 100m
 set maxvar 12000
-import delimited C:\Users\winicius.faquieri\Desktop\Winicius\munic_dist_Br.csv, delimiter(";") varnames(1) 
+import delimited C:path\munic_dist_Br.csv, delimiter(";") varnames(1) 
 destring v6-v5575, replace ignore(",") force
-save "C:\Users\winicius.faquieri\Desktop\Winicius\Base_Dados_Municipios_destring.dta", replace
+save "path\Base_Dados_Municipios_destring.dta", replace
 
 
 
 ***Criando matrizes binárias: Matriz 1
 clear
 set maxvar 12000
-use "C:\Users\winicius.faquieri\Desktop\Winicius\Base_Dados_Municipios_destring.dta"
+use "path\Base_Dados_Municipios_destring.dta"
 local dist_1 = 50
 foreach var of varlist v6-v5575 {
 gen `var'_1 = 0
@@ -51,11 +48,11 @@ drop v6-v5575
 nsplit Codigo, digits(6 1) generate(Code one)
 drop Codigo one
 rename Code Codigo
-save "C:\Users\winicius.faquieri\Desktop\Winicius\Matriz_1.dta"
+save "path\Winicius\Matriz_1.dta"
 
 *Criando matrizes binárias: Matriz 2
 clear 
-use "C:\Users\winicius.faquieri\Desktop\Winicius\Base_Dados_Municipios_destring.dta"
+use "path\Base_Dados_Municipios_destring.dta"
 local dist_1 = 50
 foreach var of varlist v6-v5575 {
 gen `var'_2 = 0
@@ -66,97 +63,7 @@ drop v6-v5575
 nsplit Codigo, digits(6 1) generate(Code one)
 drop Codigo one
 rename Code Codigo
-save "C:\Users\winicius.faquieri\Desktop\Winicius\Matriz_2.dta"
-
-*Criando matrizes binárias: Matriz 3
-clear
-use "C:\Users\winicius.faquieri\Desktop\Winicius\Base_Dados_Municipios_destring.dta"
-local dist_1 = 50
-foreach var of varlist v6-v5575 {
-gen `var'_3 = 0
-replace `var'_3 = 1 if `var' > 2*`dist_1' & `var'<= 3*`dist_1'
-}
-
-drop v6-v5575
-nsplit Codigo, digits(6 1) generate(Code one)
-drop Codigo one
-rename Code Codigo
-save "C:\Users\winicius.faquieri\Desktop\Winicius\Matriz_3.dta"
-
-*Criando matrizes binárias: Matriz 4
-clear
-use "C:\Users\winicius.faquieri\Desktop\Winicius\Base_Dados_Municipios_destring.dta"
-local dist_1 = 50
-foreach var of varlist v6-v5575 {
-gen `var'_4 = 0
-replace `var'_4 = 1 if `var' > 3*`dist_1' & `var'<= 4*`dist_1'
-}
-
-drop v6-v5575
-nsplit Codigo, digits(6 1) generate(Code one)
-drop Codigo one
-rename Code Codigo
-save "C:\Users\winicius.faquieri\Desktop\Winicius\Matriz_4.dta"
-
-*Criando matrizes binárias: Matriz 5
-clear
-use "C:\Users\winicius.faquieri\Desktop\Winicius\Base_Dados_Municipios_destring.dta"
-local dist_1 = 50
-foreach var of varlist v6-v5575 {
-gen `var'_5 = 0
-replace `var'_5 = 1 if `var' > 4*`dist_1' & `var'<= 5*`dist_1'
-}
-
-drop v6-v5575
-nsplit Codigo, digits(6 1) generate(Code one)
-drop Codigo one
-rename Code Codigo
-save "C:\Users\winicius.faquieri\Desktop\Winicius\Matriz_5.dta"
-
-*Criando matrizes binárias: Matriz 6
-clear
-use "C:\Users\winicius.faquieri\Desktop\Winicius\Base_Dados_Municipios_destring.dta"
-local dist_1 = 50
-foreach var of varlist v6-v5575 {
-gen `var'_6 = 0
-replace `var'_6 = 1 if `var' > 5*`dist_1' & `var'<= 6*`dist_1'
-}
-
-drop v6-v5575
-nsplit Codigo, digits(6 1) generate(Code one)
-drop Codigo one
-rename Code Codigo
-save "C:\Users\winicius.faquieri\Desktop\Winicius\Matriz_6.dta"
-
-*Criando matrizes binárias: Matriz 7
-clear
-use "C:\Users\winicius.faquieri\Desktop\Winicius\Base_Dados_Municipios_destring.dta"
-local dist_1 = 50
-foreach var of varlist v6-v5575 {
-gen `var'_7 = 0
-replace `var'_7 = 1 if `var' > 6*`dist_1' & `var'<= 7*`dist_1'
-}
-
-drop v6-v5575
-nsplit Codigo, digits(6 1) generate(Code one)
-drop Codigo one
-rename Code Codigo
-save "C:\Users\winicius.faquieri\Desktop\Winicius\Matriz_7.dta"
-
-*Criando matrizes binárias: Matriz 8
-clear
-use "C:\Users\winicius.faquieri\Desktop\Winicius\Base_Dados_Municipios_destring.dta"
-local dist_1 = 50
-foreach var of varlist v6-v5575 {
-gen `var'_8 = 0
-replace `var'_8 = 1 if `var' > 7*`dist_1' & `var'<= 8*`dist_1'
-}
-
-drop v6-v5575
-nsplit Codigo, digits(6 1) generate(Code one)
-drop Codigo one
-rename Code Codigo
-save "C:\Users\winicius.faquieri\Desktop\Winicius\Matriz_8.dta"
+save "path\Matriz_2.dta"
 
 
 *******************************************************************************************************************************************
@@ -176,19 +83,19 @@ duplicates report (varname)
 
 *Completando os dados faltantes da base:
 set maxvar 12000
-import excel "C:\Users\winicius.faquieri\Desktop\Winicius\Royalties.xlsx", sheet("Planilha1") firstrow 
+import excel "path\Royalties.xlsx", sheet("Planilha1") firstrow 
 destring *,replace force 
 nsplit Codigo, digits(6 1) generate(Code one) 
 drop codigoIBGE one 
 rename Code Codigo
 rename ano Ano 
 sort Ano Codigo 
-save "C:\Users\winicius.faquieri\Desktop\Winicius\Royalties.xlsx", replace
+save "path\Royalties.xlsx", replace
 
-chdir C:\Users\winicius.faquieri\Desktop\Winicius
+chdir path
 foreach i in 1 2 3 4 5 6 7 8 {
 clear
-use "C:\Users\winicius.faquieri\Desktop\Winicius\Royalties.xlsx"
+use "path\Royalties.xlsx"
 merge m:m Codigo using merge_`i'.dta
 tsfill, full
 tsset Codigo Ano
@@ -196,9 +103,9 @@ save merge_`i', replace
 }
 
 set maxvar 12000
-use "C:\Users\winicius.faquieri\Desktop\Winicius\Apoio.dta"
-merge m:m Conc_1 using "C:\Users\winicius.faquieri\Desktop\Winicius\Royalties_v2.dta"  
-*Preenchendo lacunas nos dados com novas observações, que contêm valores omissos
+use "path\Apoio.dta"
+merge m:m Conc_1 using "path\Royalties_v2.dta"  
+*Preenchendo lacunas nos dados com novas observações, que contêm valores faltantes
 tsfill, full
 *Alterando os nomes das variáveis
 rename ProdutoInternoBrutoapreços Pib
@@ -396,7 +303,7 @@ drop if _merge==1
 
 set excelxlsxlargefile on
 
-import excel "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\Painel_v31_2.xlsx", sheet("Database") firstrow
+import excel "path\1-Data\Painel_v31_2.xlsx", sheet("Database") firstrow
 
 destring *,replace force
 
@@ -440,7 +347,7 @@ gen D_ln_PetróleoegásnaturalSCNp = D.ln_PetróleoegásnaturalSCNp
 *Fonte: ftp://ftp.mtps.gov.br/pdet/microdados/RAIS/
 
 clear
-import delimited "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\ESTB`i'.txt", delimiter(";") 
+import delimited "path\1-Data\pdet microdados RAIS\ESTB`i'.txt", delimiter(";") 
 gen codigo=.
 replace codigo = 8 if cnae20classe==6000 
 replace codigo = 9 if cnae20classe==7103
@@ -449,10 +356,10 @@ replace codigo = 8 if cnae95classe==11100
 replace codigo = 9 if cnae95classe==13102
 gen Ano=.
 replace Ano=`i'
-save "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\`i'.dta"
+save "path\1-Data\pdet microdados RAIS\`i'.dta"
 *De 1999 a 2001 utilizei a variável "estoque" ao invés de "qtdevincativ".  Estoque é definido como "Estoque de vínculos ativos em 31/12 (quando acumulada representa a soma dos vinculos ativos)"
 
-use "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\1999.dta"
+use "path\1-Data\pdet microdados RAIS\1999.dta"
 
 rename clascnae95 cnae
 rename estoque qntvincativos
@@ -463,14 +370,14 @@ rename qtdvínculosativos qntvincativos
 rename município municipio 
 rename codigo cod_setor 
 
-append using "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\`i'.dta"
-save "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\Append_1999-2016.dta"
+append using "path\1-Data\pdet microdados RAIS\`i'.dta"
+save "\\path\1-Data\pdet microdados RAIS\Append_1999-2016.dta"
 
 
 ******* Utilizei microdados da RAIS para gerar a informação quantidade de vínculos ativos para 7 setores, a nível municipal, vide legenda. Fonte: ftp://ftp.mtps.gov.br/pdet/microdados/RAIS/
 
 ****************   De 2006 a 2016, utilizar cnae20classe (CNAE 2.0)
-use "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\`Ano'.dta"
+use "path\1-Data\pdet microdados RAIS\`Ano'.dta"
 gen cod_setor=.
 replace cod_setor = 1 if cnae>=01113 & cnae<=05003
 replace cod_setor = 2 if cnae>3221 & cnae<=9904
@@ -481,14 +388,14 @@ replace cod_setor = 6 if cnae>=45111 & cnae<=82997
 replace cod_setor = 6 if cnae>84302
 replace cod_setor = 7 if cnae>39005 & cnae<45111
 sum cod_setor
-save "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\`Ano'.dta", replace
+save "path\1-Data\pdet microdados RAIS\`Ano'.dta", replace
 clear
 
 gen Ano=.
 replace Ano=2016
 
 ****************   De 1995 a 2005, utilizar clascnae95 (CNAE 1.0): 
-use "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\`Ano'.dta"
+use "path\1-Data\pdet microdados RAIS\`Ano'.dta"
 gen cod_setor=.
 replace cod_setor = 1 if cnae>=01112 & cnae<10006
 replace cod_setor = 2 if cnae>=10006 & cnae<15113
@@ -498,7 +405,7 @@ replace cod_setor = 5 if cnae>=75116 & cnae<80136
 replace cod_setor = 6 if cnae>=50105 & cnae<=74993
 replace cod_setor = 6 if cnae>75302
 replace cod_setor = 7 if cnae>=45110 & cnae<50105
-save "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\`Ano'.dta", replace
+save "path\1-Data\pdet microdados RAIS\`Ano'.dta", replace
 clear
 
 *setor de oil&gas e minério de ferro
@@ -510,7 +417,7 @@ replace codigo = 9 if cnae20classe==7103
 
 *************************  De 1995 a 2005, utilizar clascnae95 (CNAE 1.0): 
 clear
-use "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\"ANO".dta"
+use "path\1-Data\pdet microdados RAIS\"ANO".dta"
 drop qtd_vinc_setor_1- qtd_vinc_setor_7
 drop if municipio==-1
 egen concat = concat ( municipio cod_setor )
@@ -541,14 +448,14 @@ drop qtd_vinc_ativ_1 qtd_vinc_ativ_2 qtd_vinc_ativ_3 qtd_vinc_ativ_4 qtd_vinc_at
 
 duplicates drop concat, force
 
-save "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\'ANO'.dta", replace
+save "path\1-Data\pdet microdados RAIS\'ANO'.dta", replace
 
 
 **************************************************************************************************************  De 2006 a 2016, utilizar cnae20classe (CNAE 2.0)
 
 
 clear
-use "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\"ANO".dta"
+use "path\1-Data\pdet microdados RAIS\"ANO".dta"
 drop qtd_vinc_setor_1- qtd_vinc_setor_7
 drop if municipio==-1
 egen concat = concat ( municipio cod_setor )
@@ -579,11 +486,11 @@ drop qtd_vinc_ativ_1 qtd_vinc_ativ_2 qtd_vinc_ativ_3 qtd_vinc_ativ_4 qtd_vinc_at
 
 duplicates drop concat, force
 
-save "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\'ANO'.dta", replace
+save "\\path\1-Data\pdet microdados RAIS\'ANO'.dta", replace
 
-use "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\`ano'.dta"
-append using "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\`i'.dta"
-save "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\Append_1999-2016.dta"
+use "\\path\1-Data\pdet microdados RAIS\`ano'.dta"
+append using "\\path\1-Data\pdet microdados RAIS\`i'.dta"
+save "\\path\1-Data\pdet microdados RAIS\Append_1999-2016.dta"
 
 *Codigo 1 AGRICULTURA, PECUÁRIA E SERVIÇOS RELACIONADOS
 *Codigo 2 INDÚSTRIAS EXTRATIVAS
@@ -608,7 +515,7 @@ drop one
 rename Code Codigo
 
 *Combinando base de dados
-merge m:1 Codigo Ano using "\\fgvfsbi.fgv.br\EPGE\EPGE-ADM\PROJETO-MAURICIO-CANEDO\4-Doença Holandesa\1-Data\pdet microdados RAIS\DB_2002-2016_v2.dta"
+merge m:1 Codigo Ano using "\\path\1-Data\pdet microdados RAIS\DB_2002-2016_v2.dta"
 
 use "C:\Users\winicius.faquieri\Desktop\Winicius\Painel_v34.dta"
 rename Petroleo oil_prod
